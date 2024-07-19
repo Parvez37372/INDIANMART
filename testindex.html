@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>INDIAN_MART</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .cart-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            padding: 20px;
+        }
+
+        .cart-item {
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            padding: 15px;
+            text-align: center;
+            width: 250px;
+            flex-wrap: wrap;
+            flex: 1 1 20%;
+            box-sizing: border-box;
+            transition: transform 0.2s;
+        }
+
+        .cart-item img {
+            max-width: 100%;
+            height: auto;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 10px;
+            margin-bottom: 10px;
+        }
+
+        .item-details h2 {
+            font-size: 1.2em;
+            margin: 10px 0;
+        }
+
+        .item-details p {
+            font-size: 1em;
+            color: #333;
+        }
+
+        .buy-now {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .buy-now:hover {
+            background-color: #218838;
+        }
+
+        /*------slider--------*/
+        .slider {
+            display: flex;
+            overflow: hidden;
+            position: relative;
+            height: 300px;
+        }
+
+        .slide {
+            min-width: 100%;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        /*---------------*/
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #FFF5EE;
+            color: black;
+            padding: 10px 20px;
+        }
+
+        .logo {
+            font-size: 1.5em;
+            color: black;
+        }
+
+        .navbar ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            color: black;
+        }
+
+        .navbar ul li {
+            margin-right: 20px;
+            position: relative;
+            color: black;
+        }
+
+        .navbar ul li a {
+            color: black;
+            text-decoration: none;
+            padding: 5px 10px;
+        }
+
+        .navbar ul li .submenu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            color: black;
+            background-color: white;
+            list-style: none;
+            padding: 10px 0;
+            margin: 0;
+            min-width: 150px;
+        }
+
+        .navbar ul li .submenu li {
+            margin: 0;
+        }
+
+        .navbar ul li .submenu li a {
+            padding: 10px 20px;
+            display: block;
+            color: white;
+            background-color: black; /* Make submenu background black */
+        }
+
+        .menu-item:hover .submenu {
+            display: block;
+            z-index: 999;
+        }
+
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .menu-toggle span {
+            height: 2px;
+            background: black; /* Changed to black */
+            margin: 4px 0;
+            width: 25px;
+        }
+
+        .sidebar {
+            width: 150px;
+            background: #333;
+            color: white;
+            position: fixed;
+            top: 0;
+            z-index: 999;
+            left: -250px;
+            height: 230px;
+            transition: left 0.3s;
+        }
+
+        .sidebar nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            margin-top: 60px;
+        }
+
+        .sidebar nav ul li {
+            padding: 10px 20px;
+        }
+
+        .sidebar nav ul li a {
+            color: white;
+            text-decoration: none;
+        }
+
+        span {
+            color: red;
+        }
+
+        main {
+            margin-left: 0;
+            padding: 20px;
+            flex: 1;
+            transition: margin-left 0.3s;
+        }
+
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: flex;
+            }
+
+            .navbar {
+                display: none;
+            }
+
+            .sidebar {
+                left: -250px;
+            }
+
+            main {
+                margin-left: 0;
+            }
+
+            .sidebar.open {
+                left: 0;
+            }
+
+            main.shift {
+                margin-left: 250px;
+            }
+        }
+
+        #sidebar {
+            color: black;
+        }
+
+        #menu-toggle {
+            color: black;
+        }
+
+        @media (min-width: 600px) {
+            .slider {
+                display: flex;
+                overflow: hidden;
+                position: relative;
+                height: 600px;
+            }
+        }
+
+        @media (min-width: 500px) {
+            .cart-item {
+                flex: 1 0 40%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo"><i class="fa-solid fa-cart-shopping"></i><b>INDIAN <span>MART</span></b></div>
+        <nav class="navbar">
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">About</a></li>
+                <li class="menu-item">
+                    <a href="#">Menu</a>
+                    <ul class="submenu">
+                        <li><a href="index.html">Home Collection</a></li>
+                        <li><a href="#clothes">Clothes</a></li>
+                        <li><a href="#">Item 3</a></li>
+                        <li><a href="#">Item 4</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+        <div class="menu-toggle" id="menu-toggle">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </header>
+    <aside class="sidebar" id="sidebar">
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="#clothes">Clothes</a></li>
+                <li><a href="#">Menu</a></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <div class="slider">
+        <img src="cart3.jpg" alt="Brand 1" class="slide">
+        <img src="ads2.png" alt="Brand 2" class="slide">
+        <img src="fair.jpg" alt="Brand 3" class="slide">
+        <img src="fortune.jpg" alt="Brand 3" class="slide">
+        <img src="Coka.png" alt="Brand 3" class="slide">
+    </div>
+
+    <h1 id="clothes">Clothes For Men and Women</h1>
+    <div class="cart-container">
+        <div class="cart-item">
+            <img src="us.jpg" alt="Item 1" height="210px" width="210px">
+            <div class="item-details">
+                <h2>Us Polo</h2>
+                <p>$10.00</p>
+                <button class="buy-now">Buy Now</button>
+            </div>
+        </div>
+        <div class="cart-item">
+            <img src="us.jpg" alt="item 2" width="210px" height="260px">
+            <div class="item-details">
+                <h2>Cantabel</h2>
+                <p>$20.00</p>
+                <button class="buy-now">Buy Now</button>
+            </div>
+        </div>
+        <div class="cart-item">
+            <img src="ava.jpg" alt="Item 3" height="210px" width="210px">
+            <div class="item-details">
+                <h2>Item 3</h2>
+                <p>$30.00</p>
+                <button class="buy-now">Buy Now</button>
+            </div>
+        </div>
+        <div class="cart-item">
+            <img src="nike.jpg" alt="Item 4" height="180px" width="300px">
+            <div class="item-details">
+                <h2>Item 4</h2>
+                <p>$40.00</p>
+                <button class="buy-now">Buy Now</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const buyNowButtons = document.querySelectorAll('.buy-now');
+            buyNowButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    alert('Item added to cart!');
+                });
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const menuToggle = document.getElementById('menu-toggle');
+            const sidebar = document.getElementById('sidebar');
+            const mainContent = document.querySelector('main');
+
+            menuToggle.addEventListener('click', () => {
+                sidebar.classList.toggle('open');
+                mainContent.classList.toggle('shift');
+            });
+        });
+
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+
+        function showSlide(index) {
+            slides.forEach((slide, i) => {
+                slide.style.transform = `translateX(${-100 * index}%)`;
+            });
+        }
+
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % slides.length;
+            showSlide(currentSlide);
+        }
+
+        setInterval(nextSlide, 3000); // Change slide every 3 seconds
+
+        // Zoom functionality
+        const modal = document.getElementById('myModal');
+        const modalImg = document.getElementById('img01');
+        const zoomableImages = document.querySelectorAll('.zoomable');
+        const close = document.getElementsByClassName('close')[0];
+
+        zoomableImages.forEach(image => {
+            image.onclick = function() {
+                modal.style.display = 'block';
+                modalImg.src = this.src;
+            }
+        });
+
+        close.onclick = function() {
+            modal.style.display = 'none';
+        }
+
+        window.onclick = function(event) {
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        }
+    </script>
+    <footer>
+        <h1>Footer here Please</h1>
+    </footer>
+</body>
+</html>
